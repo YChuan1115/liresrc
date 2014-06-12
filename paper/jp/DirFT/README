@@ -1,0 +1,65 @@
+MATLAB codes for 
+  T. Kobayashi,
+  "Dirichlet-based Histogram Feature Transform for Image Classification,"
+  Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2014.
+
+
+Table of Contents
+=================
+
+- Installation
+- Usage
+- Cross-validation set
+- Reference
+
+
+Installation
+============
+
+Unzip dirft.zip in the folder you like.
+
+
+Usage
+=====
+
+After downloading an image dataset, you can run the script code in './script'.
+For example, './script/run_voc_dirfk_bow.m' is the code for Dirichlet Fisher kernel on bag-of-word features (see Sec.2 & 4.2),
+and './script/run_*_dirgmmfk.m' are for Dirichlet-derived GMM Fisher kernel (see Sec.3 & 4.3).
+Please note that you have to specify the following paths in those script codes ('run_*.m') beforehand;
+ ROOTPATH - The working directory where the result files will be stored
+ PATH_TO_DATASET - The directory containing the dataset
+
+For details, please refer to the respective files, './script/run_*.m' and './util/cvdata_*.m'.
+
+The files './util/cvdata_*.m' construct cross-validation sets in the dataset.
+
+NOTE1: You can apply the method to a new dataset by correspondingly writing cvdata_<newdataset>.m and run_<newdataset>.m.
+NOTE2: You can use your own classifier by simply modifying the file './classify/linearsvm_smo.m'.
+
+
+Cross-validation set
+====================
+
+Cross-validation set is required to train and test the method.
+The files './util/cvdata_*.m' are used to produce the following variables:
+ classes      - Class names ([1 x nclass], cell array)
+ trainflist   - File names for training ([1 x ntrain], cell array)
+ trainID      - Class category labels (1,2,...) for training ([ntrain x 1], array)
+ vwtrainflist - File names for training visual words
+ vwtrainID    - Class category labels for training visual words
+ testflist    - File names for test
+ testID       - Class category labels for test
+which are stored in 'ROOTPATH/cv_data_test.mat', and
+ dirpath - Path to the directory containing image files
+ flists  - Image file names ([1 x nfile], cell array)
+which are stored in 'ROOTPATH/imagefiles.mat'.
+
+
+Reference
+=========
+
+If you use this code, please cite it as
+
+  T. Kobayashi,
+  "Dirichlet-based Histogram Feature Transform for Image Classification,"
+  Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2014.

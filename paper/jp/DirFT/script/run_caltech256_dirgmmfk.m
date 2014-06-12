@@ -1,0 +1,36 @@
+addpath('../util/');
+addpath('../myvlfeat/toolbox/');
+vl_setup;
+
+matlabpool open;
+
+ROOTPATH = '/home/takumi/tmp3/Caltech256';
+PATH_TO_DATASET = '/home/takumi/tmp/Caltech256/origdata/256_ObjectCategories/';
+
+cvdata_caltech256(PATH_TO_DATASET, ROOTPATH);
+
+for cvi = {'151','152','153','301','302','303','451','452','453','601','602','603'}
+
+testtype = sprintf('test%s',cvi{1});
+
+params.nword     = 256;
+params.localdesc = struct('calc_desc',@calc_phow, 'step',4, 'patchsizes',[16,24,32], 'pcadim',64, ...
+	'floatdescriptors',0, 'normalizationtype',2, 'dirichleteps',0.001);
+params.feat      = struct('nposbins',{{[1;3],[2;2],[1;1]}}, 'chunksize',10000, 'savefeat',false);
+params.classifier= struct('cost',1:0.1:3);
+
+addpath('../localdesc');
+build_gmm;   clearvars -except PATH_TO_DATASET ROOTPATH testtype params
+
+addpath('../classify');
+build_fk_classification;
+
+addpath('../evaluation');
+result_macc = evaluation_acc(result);
+save(fullfile(opath, sprintf('result_%dword_%d_%d_%d_%s.mat', nword, struct2hash(lparams), struct2hash(fparams), struct2hash(cparams), testtype)),'result_macc','-append');
+
+fprintf('acc.=%2.2f%%\n',100*max([result_macc.macc]));
+
+clearvars -except PATH_TO_DATASET ROOTPATH
+
+end

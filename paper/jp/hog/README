@@ -1,0 +1,72 @@
+This is a MATLAB software package for image classification by histogram of oriented p.d.f gradients:
+  T. Kobayashi,
+  "BoF meets HOG: Feature Extraction based on Histograms of Oriented p.d.f Gradients for Image Classification,"
+  Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR), pp. -, 2013.
+
+
+Table of Contents
+=================
+
+- Installation
+- Data 
+- Usage
+- Reference
+
+
+Installation
+============
+
+Unzip hopdfg.zip in the folder you like.
+In a default setting, for SVM classification, this package requires SMO package which can be downloaded from
+http://staff.aist.go.jp/takumi.kobayashi/code/SMO.zip
+So, unzip SMO.zip and add the path into MATLAB cache. 
+In addition, this also requires the vlfeat toolbox (http://www.vlfeat.org/) for extracting SIFT local descriptors.
+
+Data
+====
+
+You can apply these codes to any kinds of image datasets in which all image files 
+are located in a directory; e.g., 0000.jpg, 0001.jpg.
+
+Information for class labels as well as cross-validation sets be descrived in 'cv_data_*.mat' which includes
+the following variables;
+ classes      - Class names ([1 x nclass], cell array)
+ trainflist   - File names excluding extension ('.jpg') for training, such as {'0000','0002',...} ([1 x ntrain], cell array)
+ trainID      - Class indicators by {-1,+1} for training ([ntrain x nclass], array)
+ vwtrainflist - File names for training visual words
+ vwtrainID    - Class indicators for training visual words
+ testflist    - File names for test
+ testID       - Class indicators for test
+
+The class indicators are formed by
+  -1 -1 -1 +1 -1 -1 -1
+  +1 -1 -1 -1 -1 -1 -1
+           :
+where the i-th sample belonging to the j-th class is indicated by the i-th row which has +1 only at the j-th column and 0 on others.
+
+The codes in "util" generates those 'cv_data_*.mat' files.
+
+
+Usage
+=====
+
+First, you rearrange the image files in dataset as mentioned above into the directory (PATH_TO_IMAGES)
+and prepare the file of 'cv_data_*.mat' in the root directory (ROOTPATH).
+Then, by indicating the path to vlfeat that you have already installed, just type
+ >> run_all
+
+After finishing all procedure, you can find the following directories in ROOTPATH
+ <ROOTPATH>/phow_desc/    : SIFT local descriptors
+           /visualwords/  : visual words
+		   /grad_dir/     : Basis direction for coding orientations of p.d.f gradients
+		   /result/       : Classification results
+
+
+Reference
+=========
+
+If you use this package, please cite it as
+
+  T. Kobayashi, 
+  "BoF meets HOG: Feature Extraction based on Histograms of Oriented p.d.f Gradients for Image Classification,"
+  Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR), pp. -, 2013

@@ -1,0 +1,7 @@
+The following files are modified from the original vlfeat-0.9.18;
+
+./toolbox/sift/vl_dsift.c
+./toolbox/sift/vl_phow.m
+./vl/dsift.c
+./vl/dsift.h
+./make/matlab.mak
